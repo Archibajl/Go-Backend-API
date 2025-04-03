@@ -47,16 +47,5 @@ func main() {
 	fmt.Printf("client: got response!\n")
 	fmt.Printf("client: status code: %d\n", res.StatusCode)
 
-	/*r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	}).POST("/post", func(w *gin.Context) {
-		w.JSON(http.StatusOK, gin.H{
-			"message": "u wot",
-		})
-	})
 
-	r.Run()*/ // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
