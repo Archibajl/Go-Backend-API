@@ -1,9 +1,7 @@
-package backend-api
-
+package main
 
 import (
 	// "crypto/tls"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -14,7 +12,7 @@ import (
 
 func main() {
 
-	logger := log.Default()
+	logger := log.New(log.File("backend-api.log"), "[INFO]", log.Ldate|log.Ltime)
 	serverPort := 8080
 
 	go func() {
@@ -32,6 +30,7 @@ func main() {
 		if err := server.ListenAndServe(); err != nil {
 			if !errors.Is(err, http.ErrServerClosed) {
 				fmt.Printf("error running http server: %s\n", err)
+				logger.fatalln("error running http server: %s\n", err)
 			}
 		}
 	}()
@@ -42,11 +41,11 @@ func main() {
 	res, err := http.Get(requestURL)
 	if err != nil {
 		fmt.Printf("error making http request: %s\n", err)
+		logger.fatalln("Error running http server: %s\n", err)
 		os.Exit(1)
 	}
 
 	fmt.Printf("client: got response!\n")
 	fmt.Printf("client: status code: %d\n", res.StatusCode)
-
 
 }

@@ -5,7 +5,7 @@ import "log"
 type backEndRouter struct { 
  selectedServce Object
  path String
- logger log
+ logger Logger
 } 
 
 func (r IRoutingStrategy) routePath(String _path) void {

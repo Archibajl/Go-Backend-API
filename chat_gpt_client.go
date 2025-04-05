@@ -1,7 +1,14 @@
 import (
+    "log"
     "testing"
     "regexp"
+    "encoding/json"
 )
+
+type chat_gpt_client struct{
+    logger Logger
+    Message string json:"message"
+}
 
 // TestHelloName calls greetings.Hello with a name, checking
 // for a valid return value.
