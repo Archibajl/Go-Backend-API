@@ -12,7 +12,8 @@ import (
 
 func main() {
 
-	logger := log.New(log.File("backend-api.log"), "[INFO]", log.Ldate|log.Ltime)
+	logger := log.New(os.Stdout, "bacend-api.log", log.LstdFlags )
+	
 	serverPort := 8080
 
 	go func() {
@@ -28,9 +29,9 @@ func main() {
 			Handler: mux,
 		}
 		if err := server.ListenAndServe(); err != nil {
-			if !errors.Is(err, http.ErrServerClosed) {
+			if err == nil {
 				fmt.Printf("error running http server: %s\n", err)
-				logger.fatalln("error running http server: %s\n", err)
+				logger.Fatalln("error running http server: %s\n", err)
 			}
 		}
 	}()
@@ -41,7 +42,7 @@ func main() {
 	res, err := http.Get(requestURL)
 	if err != nil {
 		fmt.Printf("error making http request: %s\n", err)
-		logger.fatalln("Error running http server: %s\n", err)
+		logger.Fatalln("Error running http server: %s\n", err)
 		os.Exit(1)
 	}
 
