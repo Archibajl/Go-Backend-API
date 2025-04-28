@@ -1,3 +1,4 @@
-module backend-api
+module backend_api
 
-go 1.23.5
+go 1.24.2
+

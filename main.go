@@ -1,25 +1,22 @@
-package main
+package backend_api
 
 import (
 	// "crypto/tls"
+
 	"fmt"
 	"net/http"
-	"os"
-	"backend-api"
 	// "time"
 	// "github.com/gin-gonic/gin"
 )
 
-
 func main() {
 
 	//Todo implement api get and post functions in an asynchronous fasion
-	serverPort := 8080
 
-	server = initServer()
+	server := initServer()
 
 	// go func() {
-		
+
 	// }
 	// time.Sleep(10000 * time.Millisecond)
 
@@ -36,25 +33,26 @@ func main() {
 
 }
 
+func initServer() http.Server {
+	// client := http.DefaultClient()
+	logger := createGoLogger("common.log")
+	serverPort := 8080
+	mux := http.NewServeMux()
+	mux.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Printf("server pinged at: %s /\n", r.Method)
+		logger.Info("server pinged at: %s /\n {}\n reader {}\n writer {} \n end" + (string) r.Method + r+ w)
+	})
 
-func instServer() http.Server{
-// client := http.DefaultClient()
-logger := GoLogger()
-mux := http.NewServeMux()
-mux.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("server pinged at: %s /\n", r.Method)
-	logger.getLogger.Println("server pinged at: %s /\n {}\n reader {}\n writer {} \n end",
-		r.Method, r, w)
-})
-server := http.Server{
-	Addr:    fmt.Sprintf("localhost:%d", serverPort),
-	Handler: mux,
-}
-if err := server.ListenAndServe(); err != nil {
-	if err == nil {
-		fmt.Printf("error running http server: %s\n", err)
-		logger.getLogger.Fatalln("error running http server: %s\n", err)
+	server := http.Server{
+		Addr:    fmt.Sprintf("localhost:%d", serverPort),
+		Handler: mux,
 	}
-}
-return server
+
+	if err := server.ListenAndServe(); err != nil {
+		if err == nil {
+			fmt.Printf("error running http server: %s\n", err)
+			logger.getLogger.Fatalln("error running http server: %s\n", err)
+		}
+	}
+	return server
 }

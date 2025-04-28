@@ -1,4 +1,4 @@
-package main
+package backend_api
 
 import "log"
 
