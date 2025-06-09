@@ -1,13 +1,7 @@
 package backend_api
-import "log"
 
-type IRoutingStrategy interface
-{
-	logger log.Logger,
-	getPath() String,
-	route(path String) void,
-	isValidPath(path String) bool,
-
+type IRoutingStrategy interface {
+	getPath() string
+	route(path string)
+	isValidPath(path string) bool
 }
-
-

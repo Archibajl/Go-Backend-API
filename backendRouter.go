@@ -1,34 +1,33 @@
 package backend_api
 
-import "log"
+import "strings"
 
-type backEndRouter struct { 
- selectedServce Object
- path String
- logger Logger
-} 
+type backEndRouter struct {
+	path   string
+	logger GoLogger
+}
 
-func (r IRoutingStrategy) routePath(String _path) void {
-	String[] splitPath  = strings.Split(path, '/')
+func (r backEndRouter) routePath(_path string) {
+	splitPath := strings.Split(_path, "/")
 
-	for _,v := range splitPath{ 
+	for _, v := range splitPath {
 		switch v {
 		case "chatGPT":
-			path = _path
-			return 
+			r.path = _path
+			return
 		case "llama":
-			path=_path
+			r.path = _path
 			return
 		default:
-		 logger.printLn("Bad Path given: " + _path)	
+			r.logger.Warn("Bad Path given: " + _path)
 		}
-		
+
 	}
 }
-func (r IRoutingStrategy) isValidPath(String path) bool{
+func (r backEndRouter) isValidPath(_path string) bool {
 	return true
 }
 
-func (r IRoutingStrategy) getPath() String{
-	return path
+func (r backEndRouter) getPath() string {
+	return r.path
 }
