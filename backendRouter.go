@@ -1,33 +1,56 @@
 package backend_api
 
-import "strings"
+import (
+	"net/http"
+	// "strings"
+)
 
-type backEndRouter struct {
+type Route struct {
+	Method  string
+	Pattern string
+	Handler http.HandlerFunc
+}
+
+type Router struct {
+	routes []Route
 	path   string
 	logger GoLogger
 }
 
-func (r backEndRouter) routePath(_path string) {
-	splitPath := strings.Split(_path, "/")
+func (r *Router) Handle(method, pattern string, handler http.HandlerFunc) {
+	r.routes = append(r.routes, Route{Method: method, Pattern: pattern, Handler: handler})
+}
 
-	for _, v := range splitPath {
-		switch v {
-		case "chatGPT":
-			r.path = _path
+func (m *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	for _, route := range m.routes {
+		if r.Method == route.Method && m.routePath(route.Pattern, r.URL.Path) {
+			route.Handler(w, r)
 			return
-		case "llama":
-			r.path = _path
-			return
-		default:
-			r.logger.Warn("Bad Path given: " + _path)
 		}
+	}
+	http.NotFound(w, r)
+}
 
+func (r Router) routePath(_pattern string, _path string) bool {
+	// splitPath := strings.Split(_path, "/")
+
+	switch _path {
+	case "chatGPT":
+		r.path = _path
+		return true
+	case "llama":
+		r.path = _path
+		return true
+	default:
+		r.logger.Warn("Bad Path given: " + _path)
+		return false
 	}
 }
-func (r backEndRouter) isValidPath(_path string) bool {
+
+func (r Router) isValidPath(_path string) bool {
 	return true
 }
 
-func (r backEndRouter) getPath() string {
+func (r Router) getPath() string {
 	return r.path
 }
