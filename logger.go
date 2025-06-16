@@ -1,4 +1,4 @@
-package backend_api
+package main
 
 import (
 	"io"

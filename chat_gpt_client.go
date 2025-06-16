@@ -1,12 +1,13 @@
-package backend_api
+package main
 
 import (
 	// "encoding/json"
 	// "regexp"
+	"net/http"
 	"testing"
 )
 
-type chat_gpt_client struct {
+type ChatGPTClient struct {
 	logger GoLogger
 	Field  string "message"
 }
@@ -16,4 +17,8 @@ type chat_gpt_client struct {
 func TestResponse(t *testing.T) {
 	name := "Gladys"
 	t.Errorf(`Hello("Gladys") = %q, %v, want match for %#q, nil`, name)
+}
+
+func (gpt *ChatGPTClient) GetResponse(w *http.ResponseWriter, r *http.Request) {
+
 }
