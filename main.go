@@ -18,8 +18,3 @@ func main() {
 		logger.Error("error running http server: %s\n" + err.Error())
 	}
 }
-
-// // Handler function with proper signature
-// func hello(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Fprintln(w, "hello world")
-// }

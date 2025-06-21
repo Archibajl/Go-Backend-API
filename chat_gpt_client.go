@@ -5,10 +5,12 @@ import (
 	// "regexp"
 	"net/http"
 	"testing"
+	"time"
 )
 
 type ChatGPTClient struct {
-	logger GoLogger
+	Logger GoLogger
+	Client http.Client
 	Field  string "message"
 }
 
@@ -19,6 +21,26 @@ func TestResponse(t *testing.T) {
 	t.Errorf(`Hello("Gladys") = %q, %v, want match for %#q, nil`, name)
 }
 
-func (gpt *ChatGPTClient) GetResponse(w *http.ResponseWriter, r *http.Request) {
+func NewChatGPTClient(_logger GoLogger) *ChatGPTClient {
+	client := http.Client{Timeout: 15 * time.Second}
+	gptClient := ChatGPTClient{Logger: _logger, Client: client, Field: ""}
 
+	return &gptClient
+}
+
+func (gpt *ChatGPTClient) GetResponse(w *http.ResponseWriter, r *http.Request) *http.Response {
+
+	req, err := http.NewRequest("GET", "https://", nil)
+
+	if err != nil {
+		gpt.Logger.Error("Error : " + err.Error())
+	}
+
+	resp, err := gpt.Client.Do(req)
+
+	if err != nil {
+		gpt.Logger.Error("Error : " + err.Error())
+	}
+
+	return resp
 }
