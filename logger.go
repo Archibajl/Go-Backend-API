@@ -11,11 +11,11 @@ type GoLogger struct {
 	Logger   *log.Logger
 }
 
-func (gl *GoLogger) CreateGoLogger(_logName string) {
-	gl.Filename = _logName
+func CreateGoLogger(_logName string) GoLogger {
 	logFile, _ := os.OpenFile(_logName, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0777)
 	multiWriter := io.MultiWriter(os.Stdout, logFile)
-	gl.Logger = log.New(multiWriter, "Go Logger: ", log.Ldate|log.Ltime|log.Lshortfile)
+	gl := GoLogger{Filename: _logName, Logger: log.New(multiWriter, "Go Logger: ", log.Ldate|log.Ltime|log.Lshortfile)}
+	return gl
 }
 
 func (log *GoLogger) goLogger() GoLogger {

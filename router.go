@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 )
@@ -27,11 +28,13 @@ func NewRouter(_goLogger GoLogger) *Router {
 	router := &Router{
 		logger: _goLogger}
 	router.Handle("GET", "/chat-gpt", nil)
+	router.Handle("GET", "/hello", router.hello)
 	return router
 }
 
-func hello(w *http.ResponseWriter, r *http.Request) {
-
+func (route *Router) hello(w http.ResponseWriter, r *http.Request) {
+	route.logger.Info("hello world")
+	fmt.Fprint(w, "Hello World")
 }
 
 func (r *Router) Handle(method, path string, handler http.HandlerFunc) {
