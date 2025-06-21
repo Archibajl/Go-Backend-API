@@ -24,11 +24,9 @@ type Router struct {
 }
 
 // Instantiates router
-func NewRouter(_goLogger GoLogger) *Router {
-	router := &Router{
+func NewRouter(_goLogger GoLogger) Router {
+	router := Router{
 		logger: _goLogger}
-	router.Handle("GET", "/chat-gpt", nil)
-	router.Handle("GET", "/hello", router.hello)
 	return router
 }
 

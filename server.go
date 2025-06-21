@@ -2,14 +2,11 @@ package main
 
 import "net/http"
 
-func initServer(serverPort string) *http.Server {
-
-	// Initialize logger
-	logger := CreateGoLogger("common.log")
+func NewServer(serverPort string, router Router, logger GoLogger) *http.Server {
 
 	server := &http.Server{
 		Addr:    ":" + serverPort,
-		Handler: NewRouter(logger),
+		Handler: &router,
 	}
 
 	return server
