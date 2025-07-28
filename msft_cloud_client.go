@@ -6,6 +6,7 @@ import (
 
 	"io"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -23,13 +24,13 @@ func NewMsftCloudClient(_logger GoLogger) *MsftCloudClient {
 }
 
 func (gpt *MsftCloudClient) GetResponse(w *http.ResponseWriter, r *http.Request) *http.Response {
-	accessToken := ""
+	accessToken := os.Getenv("ONEDRIVE_ACCESS_TOKEN") // Set your token via env
 
 	// req, err := http.NewRequest("GET", "https://", nil)
 
 	// This URL gets the list of items in the root directory
 	// You can customize it to target a specific folder or image by ID or path
-	url := "https://graph.microsoft.com/v1.0/me/drive/root/children"
+	url := os.Getenv("JN_WEDDING_PHOTOS_PATH")
 
 	req, err := http.NewRequest("GET", url, nil)
 
